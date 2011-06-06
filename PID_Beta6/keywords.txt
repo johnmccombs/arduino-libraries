@@ -1,0 +1,38 @@
+#######################################
+# Syntax Coloring Map For LiquidCrystal
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+PID	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+SetMode	KEYWORD2
+Compute	KEYWORD2
+SetInputLimits	KEYWORD2
+SetOutputLimits	KEYWORD2
+SetTunings	KEYWORD2
+SetSampleTime	KEYWORD2
+JustCalculated	KEYWORD2
+Reset	KEYWORD2
+GetMode	KEYWORD2
+GetINMin	KEYWORD2
+GetINMax	KEYWORD2
+GetOUTMin	KEYWORD2
+GetOUTMax	KEYWORD2
+GetSampleTime	KEYWORD2
+GetP_Param	KEYWORD2
+GetI_Param	KEYWORD2
+GetD_Param	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+AUTO	LITERAL1
+MANUAL 	LITERAL1

@@ -1,0 +1,16 @@
+These are arduino-duemilanove + LolShield source code & libraries.
+
+you may put them into your Arduino Sketchbook folder.
+
+warning : 
+- lib is a library folder, all other projects may use it. it's currently using symlink to include the libraries in the projects ... 
+- font is not a project : it's a code generator : it generate the cpp arrays representing the font characters present in the same folder. Please see fonttest/Font.cpp for more information
+
+all other folders are projects that should compile using Arduino and gcc-avr compiling chain.
+
+All those program are distributed under GPL v2+ or LGPL v2+ license
+
+(C) 2009-2010 Jimmie P Rodgers, Benjamin Sonntag, Alex Wanger, Aurélien Couderc & maybe others, 
+
+
+And thanks goes flying to Berlin to the Chaos Computer Club team for the unbelievable congress they organized ;) 
