@@ -31,7 +31,8 @@ struct pin_map_t {
   uint8_t bit;
 };
 //------------------------------------------------------------------------------
-#if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#if defined(__AVR_ATmega1280__)\
+|| defined(__AVR_ATmega2560__)
 // Mega
 
 // Two Wire (aka I2C) ports
@@ -117,7 +118,9 @@ static const pin_map_t digitalPinMap[] = {
   {&DDRK, &PINK, &PORTK, 7}   // K7 69
 };
 //------------------------------------------------------------------------------
-#elif defined(__AVR_ATmega644P__) || defined(__AVR_ATmega644__)
+#elif defined(__AVR_ATmega644P__)\
+|| defined(__AVR_ATmega644__)\
+|| defined(__AVR_ATmega1284P__)
 // Sanguino
 
 // Two Wire (aka I2C) ports
@@ -206,7 +209,8 @@ static const pin_map_t digitalPinMap[] = {
   {&DDRE, &PINE, &PORTE, 6}   // E6 24
 };
 //------------------------------------------------------------------------------
-#elif defined(__AVR_AT90USB646__) || defined(__AVR_AT90USB1286__)
+#elif defined(__AVR_AT90USB646__)\
+|| defined(__AVR_AT90USB1286__)
 // Teensy++ 1.0 & 2.0
 
 // Two Wire (aka I2C) ports
@@ -268,7 +272,9 @@ static const pin_map_t digitalPinMap[] = {
   {&DDRF, &PINF, &PORTF, 7}   // F7 45
 };
 //------------------------------------------------------------------------------
-#else  // defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#elif defined(__AVR_ATmega168__)\
+||defined(__AVR_ATmega168P__)\
+||defined(__AVR_ATmega328P__)
 // 168 and 328 Arduinos
 
 // Two Wire (aka I2C) ports
@@ -303,7 +309,9 @@ static const pin_map_t digitalPinMap[] = {
   {&DDRC, &PINC, &PORTC, 4},  // C4 18
   {&DDRC, &PINC, &PORTC, 5}   // C5 19
 };
-#endif  // defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
+#else  // defined(__AVR_ATmega1280__)
+#error unknown chip
+#endif  // defined(__AVR_ATmega1280__)
 //------------------------------------------------------------------------------
 static const uint8_t digitalPinCount = sizeof(digitalPinMap)/sizeof(pin_map_t);
 
@@ -311,7 +319,7 @@ uint8_t badPinNumber(void)
   __attribute__((error("Pin number is too large or not a constant")));
 
 static inline __attribute__((always_inline))
-  uint8_t getPinMode(uint8_t pin) {
+  bool getPinMode(uint8_t pin) {
   if (__builtin_constant_p(pin) && pin < digitalPinCount) {
     return (*digitalPinMap[pin].ddr >> digitalPinMap[pin].bit) & 1;
   } else {
@@ -331,7 +339,7 @@ static inline __attribute__((always_inline))
   }
 }
 static inline __attribute__((always_inline))
-  uint8_t fastDigitalRead(uint8_t pin) {
+  bool fastDigitalRead(uint8_t pin) {
   if (__builtin_constant_p(pin) && pin < digitalPinCount) {
     return (*digitalPinMap[pin].pin >> digitalPinMap[pin].bit) & 1;
   } else {

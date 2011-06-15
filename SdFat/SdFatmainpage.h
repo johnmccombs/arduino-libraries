@@ -1,5 +1,5 @@
 /* Arduino SdFat Library
- * Copyright (C) 2009 by William Greiman
+ * Copyright (C) 2011 by William Greiman
  *  
  * This file is part of the Arduino SdFat Library
  *  
@@ -19,37 +19,58 @@
  */
 
 /**
-\mainpage Arduino SdFat Library
-<CENTER>Copyright &copy; 2009 by William Greiman
+\mainpage Arduino %SdFat Library
+<CENTER>Copyright &copy; 2011 by William Greiman
 </CENTER>
 
 \section Intro Introduction
-The Arduino SdFat Library is a minimal implementation of FAT16 and FAT32
-file systems on SD flash memory cards.  Standard SD and high capacity
-SDHC cards are supported.
+The Arduino %SdFat Library is a minimal implementation of FAT16 and FAT32
+file systems on SD flash memory cards. Standard SD and high capacity SDHC
+cards are supported.
 
-The SdFat only supports short 8.3 names.
+Experimental support for FAT12 can be enabled by setting FAT12_SUPPORT
+nonzero in SdFatConfig.h.
 
-The main classes in SdFat are Sd2Card, SdVolume, and SdFile.
+The %SdFat library only supports short 8.3 names.
 
-The Sd2Card class supports access to standard SD cards and SDHC cards.  Most
-applications will only need to call the Sd2Card::init() member function.
+The main classes in %SdFat are SdFat, SdFile, \ref fstream, \ref ifstream,
+and \ref ofstream.
 
-The SdVolume class supports FAT16 and FAT32 partitions.  Most applications
-will only need to call the SdVolume::init() member function.
+The SdFat class maintains a current working directory and simplifies
+initialization of other classes.
 
-The SdFile class provides file access functions such as open(), read(),
+The SdFile class provides binary file access functions such as open(), read(),
 remove(), write(), close() and sync(). This class supports access to the root
 directory and subdirectories.
 
-A number of example are provided in the SdFat/examples folder.  These were
-developed to test SdFat and illustrate its use.
+The \ref fstream class implements C++ iostreams for both reading and writing
+text files.
 
-SdFat was developed for high speed data recording.  SdFat was used to implement
-an audio record/play class, WaveRP, for the Adafruit Wave Shield.  This
-application uses special Sd2Card calls to write to contiguous files in raw mode.
-These functions reduce write latency so that audio can be recorded with the
-small amount of RAM in the Arduino.
+The \ref ifstream class implements the C++ iostreams for reading text files.
+
+The \ref ofstream class implements the C++ iostreams for writing text files.
+
+The classes \ref ibufstream and \ref obufstream format and parse character
+ strings in memory buffers.
+
+the classes ArduinoInStream and ArduinoOutStream provide iostream functions
+for Serial, LiquidCrystal, and other devices.
+
+The SdVolume class supports FAT16 and FAT32 partitions.  Most applications
+will not need to call SdVolume member function.
+
+The Sd2Card class supports access to standard SD cards and SDHC cards.  Most
+applications will not need to call Sd2Card functions.  The Sd2Card class can
+be used for raw access to the SD card.
+
+A number of example are provided in the %SdFat/examples folder.  These were
+developed to test %SdFat and illustrate its use.
+
+%SdFat was developed for high speed data recording.  %SdFat was used to
+implement an audio record/play class, WaveRP, for the Adafruit Wave Shield.
+This application uses special Sd2Card calls to write to contiguous files in
+raw mode.  These functions reduce write latency so that audio can be
+recorded with the small amount of RAM in the Arduino.
 
 \section SDcard SD\SDHC Cards
 
@@ -69,12 +90,12 @@ limited RAM.
 
 \section Hardware Hardware Configuration
 
-SdFat was developed using an
+%SdFat was developed using an
 <A HREF = "http://www.adafruit.com/"> Adafruit Industries</A> 
 <A HREF = "http://www.ladyada.net/make/waveshield/"> Wave Shield</A>.
 
 The hardware interface to the SD card should not use a resistor based level
-shifter.  SdFat sets the SPI bus frequency to 8 MHz which results in signal
+shifter.  %SdFat sets the SPI bus frequency to 8 MHz which results in signal
 rise times that are too slow for the edge detectors in many newer SD card
 controllers when resistor voltage dividers are used.
 
@@ -93,7 +114,7 @@ If you wish to report bugs or have comments, send email to fat16lib@sbcglobal.ne
 
 \section SdFatClass SdFat Usage
 
-SdFat uses a slightly restricted form of short names.
+%SdFat uses a slightly restricted form of short names.
 Only printable ASCII characters are supported. No characters with code point
 values greater than 127 are allowed.  Space is not allowed even though space
 was allowed in the API of early versions of DOS.
@@ -139,18 +160,11 @@ but is not deleted.  When a new file is created, these entries must be scanned
 before creating the file, a flaw in the FAT design.  Also files can become
 fragmented which causes reads and writes to be slower.
 
-Microsoft operating systems support removable media formatted with a
-Master Boot Record, MBR, or formatted as a super floppy with a FAT Boot Sector
-in block zero.
+A formatter sketch, SdFormatter.pde, is included in the
+%SdFat/examples/SdFormatter directory.  This sketch attempts to
+emulate SD Association's SDFormatter.
 
-Microsoft operating systems expect MBR formatted removable media
-to have only one partition. The first partition should be used.
-
-Microsoft operating systems do not support partitioning SD flash cards.
-If you erase an SD card with a program like KillDisk, Most versions of
-Windows will format the card as a super floppy.
-
-The best way to restore an SD card's format is to use SDFormatter
+The best way to restore an SD card's format on a PC is to use SDFormatter
 which can be downloaded from:
 
 http://www.sdcard.org/consumers/formatter/
@@ -172,7 +186,19 @@ will result in:
 The volume will then be FAT16.
 
 If you are formatting an SD card on OS X or Linux, be sure to use the first
-partition. Format this partition with a cluster count in above range.
+partition. Format this partition with a cluster count in above range for FAT16.
+SDHC cards should be formatted FAT32 with a cluster size of 32 KB.
+
+Microsoft operating systems support removable media formatted with a
+Master Boot Record, MBR, or formatted as a super floppy with a FAT Boot Sector
+in block zero.
+
+Microsoft operating systems expect MBR formatted removable media
+to have only one partition. The first partition should be used.
+
+Microsoft operating systems do not support partitioning SD flash cards.
+If you erase an SD card with a program like KillDisk, Most versions of
+Windows will format the card as a super floppy.
 
 \section  References References
 
